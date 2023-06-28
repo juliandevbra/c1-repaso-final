@@ -1,20 +1,24 @@
 import axios from "axios";
-import { useReducer } from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useReducer } from "react";
 
 const PokeStates = createContext()
 
 const InitialPokeState = {
     pokeList: [],
-    pokemon: {}
+    pokemon: {},
+    chosen: JSON.parse(localStorage.getItem('chosen')) || []
 }
 
 const pokeReducer = (state, action) => {
     switch(action.type){
         case 'GET_LIST':
-            return {pokeList: action.payload, pokemon: state.pokemon}
+            return { ...state, pokeList: action.payload}
         case 'GET_POKE':
-            return {pokeList: state.pokeList, pokemon: action.payload}
+            return { ...state, pokemon: action.payload}
+        case 'ADD_CHOSEN':
+            return {...state, chosen: [...state.chosen, action.payload]}
+        case 'DELETE_CHOSEN':
+            return {...state, chosen: action.payload}
         default: 
             throw new Error()
     }
@@ -29,6 +33,10 @@ const Context = ({children}) => {
         .then(res => pokeDispatch({type: 'GET_LIST', payload: res.data.results}))
         .catch(err => console.log(err))
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('chosen', JSON.stringify(pokeState.chosen))
+    }, [pokeState.chosen])
 
     console.log(pokeState)
     return (

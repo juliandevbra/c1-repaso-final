@@ -5,11 +5,13 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import PokeList from './Routes/PokeList'
 import Pokemon from './Routes/Pokemon'
+import Navbar from './Components/Navbar'
 
 function App() {
 
   return (
     <>
+    <Navbar/>
       <Routes>
         <Route path='/' element={<PokeList/>}/>
         <Route path='/poke/:name' element={<Pokemon/>}/>
