@@ -38,7 +38,6 @@ const Context = ({children}) => {
         localStorage.setItem('chosen', JSON.stringify(pokeState.chosen))
     }, [pokeState.chosen])
 
-    console.log(pokeState)
     return (
         <PokeStates.Provider value={{
             pokeState, pokeDispatch

@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <div>
-        {pokeState.chosen.map(poke => <button onClick={() => deleteChosen(poke)}>
+        {pokeState.chosen.map(poke => <button key={poke.id} onClick={() => deleteChosen(poke)}>
           <img src={poke.sprites?.front_default} alt="" />
           </button>)}
     </div>

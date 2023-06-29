@@ -10,11 +10,18 @@ const Pokemon = () => {
     const {pokeState, pokeDispatch} = usePokeStates()
     const params = useParams()
     const urlPoke = 'https://pokeapi.co/api/v2/pokemon/' + params.name
-    console.log(params)
 
     useEffect(() => {
-        axios(urlPoke)
-        .then(res => pokeDispatch({type: 'GET_POKE', payload: res.data}))
+
+        const fetchPoke = async () => {
+          try{
+            let res = await axios(urlPoke)
+            pokeDispatch({type: 'GET_POKE', payload: res.data})
+          } catch (err) {
+            console.log(err)
+          }
+        }
+        fetchPoke()
     }, [])
 
     const addChosen = () => {
@@ -29,13 +36,13 @@ const Pokemon = () => {
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
         {pokeState.pokemon.name}
-        <img src={pokeState.pokemon.sprites?.front_default} alt="" />
+        <img style={{width: '150px'}} src={pokeState.pokemon.sprites?.front_default} alt="" />
 
 
         <button onClick={addChosen}>
           <img src={pokegot} style={{width: '40px'}} alt="" />
         </button>
-         {/* <button><img src={pokeball} style={{width: '40px'}} alt="" /></button> */}
+        {/* <button><img src={pokeball} style={{width: '40px'}} alt="" /></button> */}
     </div>
   )
 }
