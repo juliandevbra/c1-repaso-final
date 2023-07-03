@@ -1,5 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useState, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const PokeStates = createContext()
 
@@ -30,8 +32,25 @@ const Context = ({children}) => {
 
     useEffect(() => {
         axios(urlList)
-        .then(res => pokeDispatch({type: 'GET_LIST', payload: res.data.results}))
-        .catch(err => console.log(err))
+        .then(res => {
+            toast('Se obtuvo la lista de pokemones', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+            pokeDispatch({type: 'GET_LIST', payload: res.data.results})
+        })
+        .catch(err => Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Hubo un error para traer la lista!',
+            footer: err,
+          }))
     }, [])
 
     useEffect(() => {

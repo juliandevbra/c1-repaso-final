@@ -5,7 +5,6 @@ import { usePokeStates } from '../Context'
 const PokeList = () => {
 
   const {pokeState} = usePokeStates()
-
   return (
     <div>
       {pokeState.pokeList.map(poke => <Link to={'/poke/' + poke.name} key={poke.name}>
